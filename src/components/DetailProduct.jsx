@@ -1,7 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const DetailProduct = () => {
+  const [products, setProducts] = useState([]);
+  const { id } = useParams();
+
+  const getProductsById = async () => {
+    const response = await axios.get(`http://localhost:5000/product/${id}`);
+    setProducts(response.data);
+  };
+
+  useEffect(() => {
+    getProductsById();
+  }, []);
+
   return (
     <div className="mt-5">
       <div className="card">
@@ -15,19 +28,19 @@ const DetailProduct = () => {
             <tbody>
               <tr>
                 <td>ID</td>
-                <td>: 123</td>
+                <td>: {products._id}</td>
               </tr>
               <tr>
                 <td>Name</td>
-                <td>: Laptop</td>
+                <td>: {products.nama}</td>
               </tr>
               <tr>
                 <td>Price</td>
-                <td>: Rp. 20.000.000</td>
+                <td>: {products.harga}</td>
               </tr>
               <tr>
                 <td>Stock</td>
-                <td>: 10</td>
+                <td>: {products.stock}</td>
               </tr>
             </tbody>
           </table>

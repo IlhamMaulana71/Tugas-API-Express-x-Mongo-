@@ -13,9 +13,13 @@ function App() {
         <div className="container">
           <Routes>
             <Route exact path="/" element={<ProductList />} />
-            <Route exact path="/tambah" element={<AddProduct />} />
-            <Route exact path="/detail-product" element={<DetailProduct />} />
-            <Route exact path="/edit-product" element={<EditProduct />} />
+            <Route exact path="tambah" element={<AddProduct />} />
+            <Route
+              exact
+              path="detail-product/:id"
+              element={<DetailProduct />}
+            />
+            <Route exact path="edit-product/:id" element={<EditProduct />} />
           </Routes>
         </div>
       </BrowserRouter>
