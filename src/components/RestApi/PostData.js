@@ -2,31 +2,35 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AddProduct = () => {
-  const [nama, setNama] = useState("");
-  const [harga, setHarga] = useState("");
+const PostData = () => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [active, setActive] = useState(false);
   const [errors, setErrors] = useState(false);
   const navigate = useNavigate();
 
-  const saveProduct = async (e) => {
+  const Save = async (e) => {
     e.preventDefault();
     try {
       setActive(true);
-      if (nama.length === 0 || harga.length === 0 || stock.length === 0) {
+      if (name.length === 0 || price.length === 0 || stock.length === 0) {
         setErrors({ errors: true });
       } else {
-        await axios.post("http://localhost:5000/product", {
-          nama,
-          harga,
-          stock,
-          status: active,
-        });
+        const result = await axios({
+          method: "post",
+          url: "http://localhost:3000/api/v4/product",
+          data: {
+            name,price,stock,status:active
+          },
+          headers: {"Content-Type":"multipart/form-data"}
+        })
+        console.log(result);
         alert("Produk berhasil ditambahkan");
         navigate("/");
       }
     } catch (error) {
+      console.log(error)
       console.error(error);
     }
   };
@@ -38,17 +42,17 @@ const AddProduct = () => {
             <div className="card-body">
               <h4>Tambah Produk</h4>
 
-              <form onSubmit={saveProduct}>
+              <form onSubmit={Save}>
                 <div className="mb-2 mt-4">
                   <label className="form-label">Nama</label>
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Nama Produk..."
-                    value={nama}
-                    onChange={(e) => setNama(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  {errors && nama <= 0 ? (
+                  {errors && name <= 0 ? (
                     <label className="error">
                       *Nama produk tidak boleh kosong
                     </label>
@@ -58,17 +62,17 @@ const AddProduct = () => {
                 </div>
 
                 <div className="mb-2">
-                  <label className="form-label">Harga</label>
+                  <label className="form-label">Price</label>
                   <input
                     type="number"
                     className="form-control"
-                    placeholder="Harga Produk..."
-                    value={harga}
-                    onChange={(e) => setHarga(e.target.value)}
+                    placeholder="Price Produk..."
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                   />
-                  {errors && harga <= 0 ? (
+                  {errors && price <= 0 ? (
                     <label className="error">
-                      *Harga produk tidak boleh kosong
+                      *Price produk tidak boleh kosong
                     </label>
                   ) : (
                     ""
@@ -116,4 +120,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default PostData;

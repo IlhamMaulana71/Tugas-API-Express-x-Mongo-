@@ -2,32 +2,31 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-const EditProduct = () => {
-  const [nama, setNama] = useState("");
-  const [harga, setHarga] = useState("");
+const PutData = () => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [active, setActive] = useState(false);
-  // const [errors, setErrors] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const getUsersById = async () => {
-    const response = await axios.get(`http://localhost:5000/product/${id}`);
-    setNama(response.data.nama);
-    setHarga(response.data.harga);
+  const axiosget = async () => {
+    const response = await axios.get(`http://localhost:3000/api/v4/product/${id}`);
+    setName(response.data.name);
+    setPrice(response.data.price);
     setStock(response.data.stock);
   };
 
-  const updateProduct = async (e) => {
+  const updateData = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:5000/product/${id}`, {
-        nama,
-        harga,
+      await axios.put(`http://localhost:3000/api/v4/product/${id}`, {
+        name,
+        price,
         stock,
         status: active,
       });
-      alert("Produk Berhasil diupdate");
+      alert("Produk Berhasil diupdateData");
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -35,7 +34,7 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
-    getUsersById();
+    axiosget();
   }, []);
   return (
     <div className="mt-5">
@@ -44,15 +43,15 @@ const EditProduct = () => {
           <div className="card w-50">
             <div className="card-body">
               <h4>Edit Produk</h4>
-              <form onSubmit={updateProduct}>
+              <form onSubmit={updateData}>
                 <div className="mb-2 mt-4">
                   <label className="form-label">Nama</label>
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Nama Produk..."
-                    value={nama}
-                    onChange={(e) => setNama(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
@@ -62,8 +61,8 @@ const EditProduct = () => {
                     type="number"
                     className="form-control"
                     placeholder="Harga Produk..."
-                    value={harga}
-                    onChange={(e) => setHarga(e.target.value)}
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                   />
                 </div>
 
@@ -89,7 +88,7 @@ const EditProduct = () => {
                 </div>
 
                 <button type="submit" className="btn btn-primary mt-3 px-4">
-                  Update
+                  updateData
                 </button>
               </form>
             </div>
@@ -100,4 +99,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default PutData;

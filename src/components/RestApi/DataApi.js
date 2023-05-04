@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { numberWithCommas } from "../utils/util";
+import { numberWithCommas } from "../../utils/util";
 
-const ProductList = () => {
+const DataApi = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const getProducts = async () => {
-    const response = await axios.get("http://localhost:5000/product");
+  const GetData = async () => {
+    const response = await axios.get("http://localhost:3000/api/v4/product");
     setProducts(response.data);
   };
 
-  const deleteProduct = async (id) => {
+  const DeleteData = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/product/${id}`);
-      getProducts();
+      await axios.delete(`http://localhost:3000/api/v4/product/${id}`);
+      GetData();
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getProducts();
+    GetData();
   }, []);
 
   useEffect(() => {
@@ -31,8 +31,8 @@ const ProductList = () => {
       if (search === "") {
         return product;
       } else if (
-        product.nama.toLowerCase().includes(search.toLowerCase()) ||
-        numberWithCommas(product.harga).includes(search)
+        product.name.toLowerCase().includes(search.toLowerCase()) ||
+        numberWithCommas(product.price).includes(search)
       ) {
         return product;
       }
@@ -75,8 +75,8 @@ const ProductList = () => {
                 searchResult.map((product, index) => (
                   <tr key={product._id}>
                     <th>{index + 1}</th>
-                    <td>{product.nama}</td>
-                    <td>Rp. {numberWithCommas(product.harga)}</td>
+                    <td>{product.name}</td>
+                    <td>Rp. {numberWithCommas(product.price)}</td>
                     <td className="d-flex gap-2">
                       <Link
                         to={`detail-product/${product._id}`}
@@ -91,7 +91,7 @@ const ProductList = () => {
                         Edit
                       </Link>
                       <button
-                        onClick={() => deleteProduct(product._id)}
+                        onClick={() => DeleteData(product._id)}
                         className="btn btn-danger btn-sm"
                       >
                         Delete
@@ -108,4 +108,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default DataApi;

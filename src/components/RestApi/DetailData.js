@@ -2,17 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const DetailProduct = () => {
+const DetailData = () => {
   const [products, setProducts] = useState([]);
   const { id } = useParams();
 
-  const getProductsById = async () => {
-    const response = await axios.get(`http://localhost:5000/product/${id}`);
+  const getDetailData = async () => {
+    const response = await axios.get(`http://localhost:3000/api/v4/product/${id}`);
     setProducts(response.data);
   };
 
   useEffect(() => {
-    getProductsById();
+    getDetailData();
   }, []);
 
   return (
@@ -32,11 +32,11 @@ const DetailProduct = () => {
               </tr>
               <tr>
                 <td>Name</td>
-                <td>: {products.nama}</td>
+                <td>: {products.name}</td>
               </tr>
               <tr>
                 <td>Price</td>
-                <td>: {products.harga}</td>
+                <td>: {products.price}</td>
               </tr>
               <tr>
                 <td>Stock</td>
@@ -50,4 +50,4 @@ const DetailProduct = () => {
   );
 };
 
-export default DetailProduct;
+export default DetailData;

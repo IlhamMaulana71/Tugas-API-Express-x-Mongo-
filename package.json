@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "Tugas API (Express x Mongo)",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

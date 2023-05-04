@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AddProduct from "./components/AddProduct";
-import DetailProduct from "./components/DetailProduct";
-import EditProduct from "./components/EditProduct";
+import PostData from "./components/RestApi/PostData";
+import DetailData from "./components/RestApi/DetailData";
+import PutData from "./components/RestApi/PutData";
 import Navigation from "./components/Navigation";
-import ProductList from "./components/ProductList";
+import DataApi from "./components/RestApi/DataApi";
 
 function App() {
   return (
@@ -12,14 +12,14 @@ function App() {
         <Navigation />
         <div className="container">
           <Routes>
-            <Route exact path="/" element={<ProductList />} />
-            <Route exact path="tambah" element={<AddProduct />} />
+            <Route exact path="/" element={<DataApi />} />
+            <Route exact path="tambah" element={<PostData />} />
             <Route
               exact
               path="detail-product/:id"
-              element={<DetailProduct />}
+              element={<DetailData />}
             />
-            <Route exact path="edit-product/:id" element={<EditProduct />} />
+            <Route exact path="edit-product/:id" element={<PutData />} />
           </Routes>
         </div>
       </BrowserRouter>
